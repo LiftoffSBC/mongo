@@ -41,23 +41,20 @@ app.get("/scrape", function (req, res) {
     // console.log(response);
 
     // Now, we grab every h2 within an article tag, and do the following:
-    $("article .post-block.post-block--image.post-block--unread").each(function (i, element) {
-      console.log(element);
+    $("header.post-block__header").each(function (i, element) {
       // Save an empty result object
       var result = {};
-      // console.log(result);
-      var title = $(element).children().text();
-      console.log(title);
 
       // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
-      result.content = $(this)
-        .children("p");
+      result.title = $(this).find("a.post-block__title__link").text().trim();
+      result.link = $(this).find("a.post-block__title__link").attr("href");
+      result.content = $(this).next().text().trim();
+
+      console.log("title: " + result.title);
+      console.log("link: " + result.link);
+      console.log("content: " + result.content);
+      console.log("------------------------------------");
+
 
       db.Article.create(result)
         .then(function (dbArticle) {
