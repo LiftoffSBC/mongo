@@ -1,0 +1,84 @@
+<div class="jumbotron text-center">
+    <div class="overlay"></div>
+    <div class="background-image"></div>
+    <div class="caption">
+        <h1 class="jumboHeader" style="font-weight: bold;">Saved Articles</h1>
+        <p>Your Saved Articles</p>
+    </div>
+</div>
+<div class="container-fluid article-container">
+    {{#if savedArticle}} {{#each savedArticle}}
+    <div class="card articleCard">
+        <div class="card-header">
+            <h3 class="title" data-id={{this._id}} data-saved={{this.saved}}>
+                {{#if this.pic}}
+                <img class="article-pic" src="{{this.pic}}" alt="No Image"> {{/if}}
+                <a href={{this.link}} class="article-link">
+                    {{this.title}}
+                </a>
+
+            </h3>
+        </div>
+        <div class="card-body">
+            <p class="summary">
+                <strong>Summary:</strong> {{this.summary}}</p>
+            <a class="btn btn-danger delete">
+                Delete Article
+            </a>
+            {{!-- Triggers modal --}}
+            <a class="btn comment" data-toggle="modal" data-target="#commentModal">
+                Leave Comment
+            </a>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="commentModalLabel">Leave a comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="listOfComments" data-id="{{this.comment._id}}">{{this.comment.comment}} {{#if this.comment.comment}}
+                            <button class="btn btn-danger" id="deleteComment">
+                                <span aria-hidden="true">delete</span>
+                            </button>
+                            {{/if}}
+                        </p>
+
+                        <input type="text" class="form-control" id="commentBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="closeButton" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn" id="saveChanges" data-id={{this._id}}>Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}} {{else}}
+    <div class="container-fluid article-container">
+        <div class="alert alert-warning text-center">
+            <h4>On no!. Looks like we don't have any saved articles.</h4>
+        </div>
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Would You Like to Browse Available Articles?</h3>
+            </div>
+            <div class="card-body text-center">
+                <h4>
+                    <a href="/">Browse Articles</a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    {{!--
+    <div class="card articleCard">
+        <div class="card-header">
+            Oh no! Looks like you don't have any saved articles. Click the Scrape button to get started.
+        </div>
+    </div> --}} {{/if}}
+</div>

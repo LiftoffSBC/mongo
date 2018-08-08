@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs = require("express-handlebars");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -25,6 +26,9 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
+// Set up handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
@@ -32,7 +36,7 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 // Routes
 
-// A GET route for scraping the charlatan website
+// A GET route for scraping the techcrunch website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with request
   axios.get("https://techcrunch.com/").then(function (response) {
@@ -73,13 +77,18 @@ app.get("/scrape", function (req, res) {
 
 });
 
+// Landing route
+app.get("/", function(req, res) {
+  res.redirect("/articles");
+});
+
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
   // Grab every document in the Articles collection
   db.Article.find({})
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
+      res.render("index", {articles: dbArticle});
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
@@ -88,7 +97,7 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function (req, res) {
+app.get("/articles/saved", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
     // ..and populate all of the notes associated with it
@@ -104,7 +113,7 @@ app.get("/articles/:id", function (req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function (req, res) {
+app.post("/articles/saved", function (req, res) {
   // Create a new note and pass the req.body to the entry
   db.Note.create(req.body)
     .then(function (dbNote) {
@@ -122,6 +131,20 @@ app.post("/articles/:id", function (req, res) {
       res.json(err);
     });
 });
+
+// Route for viewing a saved Article and it's associated Notes
+// app.get("/articles/saved", function(req, res) {
+//     // Create a new note and pass the req.body to the entry
+//   db.Article.find({ saved: true }).populate("note")
+//     .then(function(savedArticles) {
+//       res.render("saved", {
+//         savedArticle: savedArticles,
+//       });
+//     })
+//     .catch(function(err) {
+//       res.json(err);
+//     });
+// });
 
 // Start the server
 app.listen(PORT, function () {
