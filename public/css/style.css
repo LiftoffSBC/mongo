@@ -1,32 +1,64 @@
-body { background-image: url("../public/images") }
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-        background-color: rgba(250, 235, 215, 0.37);
-        text-align: center;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #FCF5C7;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
+body { 
+  background-image: url("../images/background_1920x1080.jpg");
+  background-size: auto;
+}
+.navbar {
+
+}
+
+.jumbotron {
+  background-image: url("../images/tcscrape.jpg");
+  background-size: 100%;
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.caption {
+  background-color: rgba(240, 248, 255, 0.418);
+}
+
+.alert.alert-warning {
+  background-color: rgba(240, 248, 255, 0.705);
+}
+
+.alert h4 {
+  color: black;
+}
+
+#wrapper {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5%;
+  background-color: rgba(250, 235, 215, 0.37);
+  text-align: center;
+}
+
+#articles {
+  display: inline-block;
+  overflow: auto;
+  width: 60%;
+  height: 700px;
+}
+
+#notes {
+  float: right;
+  width: 30%;
+}
+
+textarea, input {
+  display: block;
+  width: 100%;
+  background-color: #FCF5C7;
+}
+
+input {
+  height: 36px;
+  font-size: 24px;
+}
+
+textarea {
+  height: 200px;
+  font-size: 18px;
+}
