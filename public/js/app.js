@@ -102,10 +102,27 @@ $(document).ready(function () {
     });
 
 
-    $(".clear").click(function () {
-        clearDB();
+    // $("#clear").click(function () {
+    //     $.ajax({
+    //         method: "DELETE",
+    //         url: "api/clear",
+    //         success: function(data) {
+    //             show_items();
+    //         }
+    //     })
+    //         // With that done
+    //         .done(function (data) {
+    //             // Log the response
+    //             $('.articles-container').empty();
+    //         });
 
-        $('.articles-container').empty();
+            function handleArticleClear() {
+                $.get("api/clear").then(function() {
+                //   articleContainer.empty();
+                  $('.articles-container').empty();
+                  initPage();
+                });
+              }
         // $.get("/articles", function (data) {
         //     // function handleArticleClear() {
         //         // $.get("api/clear").then(function () {
@@ -114,5 +131,5 @@ $(document).ready(function () {
         //         // });
         //     // }
         // });
-    });
+    // });
 });

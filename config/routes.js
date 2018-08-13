@@ -13,7 +13,7 @@ module.exports = function(router) {
           if (error) {
               console.log(error);
           } else if (found.length === 0) {
-              res.render("empty")
+              res.render("empty");
           } else {
 
             var hbsObject = {
@@ -101,6 +101,41 @@ module.exports = function(router) {
       });
   });
 
-  router.get("api/clear", clearController.clearDB);
+
+
+
+//   router.put("api/clear", function(req, res) {
+//     db.Headline.remove({})
+//       .then(function() {
+//         return db.Note.remove({});
+//       })
+//       .then(function() {
+//         res.json({ ok: true });
+//         res.redirect('/');
+//       });
+//     });
+
+    router.get("/", function(req, res) {
+        Article.findAll(function(error, found) {
+            if (error) {
+                console.log(error);
+            } 
+            else {
+                router.delete("api/clear", function(req, res) {
+                    db.Headline.remove({})
+                      .then(function() {
+                        return db.Note.remove({});
+                      })
+                      .then(function() {
+                        res.json({ ok: true });
+                        res.redirect('/');
+                      });
+                    });
+  
+            }
+        });
+    });
+  
+
 
 };
