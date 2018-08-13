@@ -4,6 +4,7 @@ var Note = require("../models/Note");
 var articlesController = require("../controllers/articles");
 var notesController = require("../controllers/notes");
 var clearController = require("../controllers/clear");
+var router = require("express").Router();
 
 module.exports = function(router) {
 
@@ -115,13 +116,13 @@ module.exports = function(router) {
 //       });
 //     });
 
-    router.get("/", function(req, res) {
-        Article.findAll(function(error, found) {
+    router.get("api/clear", function(req, res) {
+        clearController.put(function(error, res) {
             if (error) {
                 console.log(error);
             } 
             else {
-                router.delete("api/clear", function(req, res) {
+                router.get("api/clear", function(req, res) {
                     db.Headline.remove({})
                       .then(function() {
                         return db.Note.remove({});

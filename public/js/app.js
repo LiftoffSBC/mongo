@@ -101,10 +101,10 @@ $(document).ready(function () {
             });
     });
 
-
+//working clicker!!!!!!//
     // $("#clear").click(function () {
     //     $.ajax({
-    //         method: "DELETE",
+    //         method: "GET",
     //         url: "api/clear",
     //         success: function(data) {
     //             show_items();
@@ -115,14 +115,27 @@ $(document).ready(function () {
     //             // Log the response
     //             $('.articles-container').empty();
     //         });
+    // });
 
-            function handleArticleClear() {
-                $.get("api/clear").then(function() {
-                //   articleContainer.empty();
-                  $('.articles-container').empty();
-                  initPage();
-                });
-              }
+    // testing clear on click
+
+    $("#clear").click(function (event) {
+        event.preventDefault();
+        $.get("/api/clear").then(function (data) {
+            $(".articles-container").empty()
+            .then(function () {
+                res.redirect('/'); 
+            });
+            //location.reload();
+        });
+    });
+            // function handleArticleClear() {
+            //     $.get("api/clear").then(function() {
+            //     //   articleContainer.empty();
+            //       $('.articles-container').empty();
+            //       initPage();
+            //     });
+            //   }
         // $.get("/articles", function (data) {
         //     // function handleArticleClear() {
         //         // $.get("api/clear").then(function () {
